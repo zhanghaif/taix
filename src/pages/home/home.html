@@ -1,0 +1,41 @@
+<ion-header>
+    <ion-navbar color="dark">
+        <ion-title style='text-align:center'>
+            司机端
+        </ion-title>
+
+        <ion-buttons right>
+            <button ion-button icon-only (click)="loginOut()">
+                <ion-icon name="exit"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding class="bgcolor">
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <warmtips></warmtips>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+            </ion-col>
+            <ion-col col-auto>
+                <button ion-fab class="outcar" (click)="goListener()">
+              <ion-icon class="text">出车</ion-icon>
+            </button>
+            </ion-col>
+            <ion-col>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <!-- <ion-fab >
+    <button  ion-fab style="background-color:coral;width:250px;height:250px;">
+      <ion-icon style="color:rgb(245, 241, 239);font-size:50px">听单中 </ion-icon>
+    </button>
+  </ion-fab> -->
+
+</ion-content>

@@ -1,0 +1,125 @@
+page-listener {
+    .title {
+        text-align: center;
+        color: #fff;
+        font-size: 20px;
+    }
+    .grid {
+        padding: 0px
+    }
+    .outcar {
+        background-color: rgb(13, 172, 13);
+        width: 200px;
+        height: 200px;
+    }
+    .incar {
+        background-color: #f58a2a;
+        width: 200px;
+        height: 200px;
+    }
+    .text {
+        color: rgb(245, 241, 239);
+        font-size: 50px;
+    }
+    .qwer {
+        width: 16em;
+        height: 16em;
+    }
+    @-webkit-keyframes test {
+        from {
+            opacity: 0;
+            -webkit-transform: scale3d(0.3, 0.3, 0.3);
+            transform: scale3d(0.3, 0.3, 0.3);
+        }
+        50% {
+            opacity: 0.1;
+        }
+    }
+    @-moz-keyframes test {
+        from {
+            opacity: 0;
+            -moz-transform: scale3d(0.3, 0.3, 0.3);
+            transform: scale3d(0.3, 0.3, 0.3);
+        }
+        50% {
+            opacity: 0.1;
+        }
+    }
+    @keyframes test {
+        from {
+            opacity: 0;
+            transform: scale3d(0.3, 0.3, 0.3);
+        }
+        50% {
+            opacity: 0.1;
+        }
+    }
+    @-webkit-keyframes test2 {
+        from {
+            opacity: 0;
+            -webkit-transform: scale3d(0.3, 0.3, 0.3);
+            transform: scale3d(0.3, 0.3, 0.3);
+        }
+        50% {
+            opacity: 0.4;
+        }
+    }
+    @-moz-keyframes test2 {
+        from {
+            opacity: 0;
+            -moz-transform: scale3d(0.3, 0.3, 0.3);
+            transform: scale3d(0.3, 0.3, 0.3);
+        }
+        50% {
+            opacity: 0.4;
+        }
+    }
+    @keyframes test2 {
+        from {
+            opacity: 0;
+            transform: scale3d(0.3, 0.3, 0.3);
+        }
+        50% {
+            opacity: 0.4;
+        }
+    }
+    .listener-outer {
+        width: 100%;
+        //padding-top: 100%;
+        height: 100%;
+        border-radius: 50%;
+        //margin: 0 auto;
+        background: rgba(175, 123, 77, 0.1);
+        left: 0;
+        top: 0;
+        //border: 1px solid #f90;
+        -webkit-animation: 2s test infinite ease;
+        animation: 2s test infinite ease;
+    }
+    .listener-circle {
+        //display: table;
+        width: 80%;
+        height: 80%;
+        border-radius: 50%;
+        background: rgba(245, 138, 42, 0.4);
+        margin: 0 auto;
+        margin-left: 10%;
+        margin-top: -90%;
+        -webkit-animation: 2s test infinite ease;
+        animation: 2s test infinite ease;
+    }
+    .listener {
+        //display: table;
+        width: 60%;
+        height: 60%;
+        border-radius: 50%;
+        background: rgb(245, 138, 42);
+        margin: 0 auto;
+        margin-left: 20%;
+        margin-top: -70%;
+        text-align: center;
+        line-height: 3.92em;
+        color: #fff;
+        font-size: 30px;
+    }
+}

@@ -1,0 +1,52 @@
+<ion-header>
+    <ion-navbar color="dark">
+        <ion-title>
+            听单中
+        </ion-title>
+        <ion-buttons left>
+            <button ion-button icon-only (click)="goListInfo()">
+                <ion-icon name="list-box"></ion-icon>
+            </button>
+        </ion-buttons>
+        <!-- <ion-buttons right>
+            <button ion-button icon-only (click)="goOrders()">
+                    <ion-icon name="arrow-dropright"></ion-icon>
+                </button>
+        </ion-buttons> -->
+    </ion-navbar>
+</ion-header>
+<ion-content padding class="bgcolor">
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <div class="title">
+                    <p>请司机系好安全带，</p>
+                    <p>按照交通规则驾驶，</p>
+                    <p>祝您一路顺畅</p>
+                </div>
+                <!-- <warmtips></warmtips> -->
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+            </ion-col>
+            <ion-col col-auto class="qwer">
+                <div class="listener-outer"></div>
+                <div class="listener-circle"></div>
+                <div class="listener">听单中</div>
+            </ion-col>
+            <ion-col>
+            </ion-col>
+        </ion-row>
+        <!-- <ion-row>
+            <ion-col>
+                <button ion-button color="light" (click)="goOrders()" style="margin-top: 50px" full icon-only outline>下一步</button>
+            </ion-col>
+        </ion-row> -->
+        <ion-row>
+            <ion-col>
+                <button ion-button color="light" (click)="update()" style="margin-top: 50px" full icon-only outline>收车</button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

@@ -1,0 +1,82 @@
+<ion-header>
+    <ion-navbar color="dark">
+        <ion-title>
+            订单接单
+        </ion-title>
+        <ion-buttons left>
+            <button ion-button icon-only (click)="goListinfo()">
+                    <ion-icon name="list-box"></ion-icon>
+                </button>
+        </ion-buttons>
+        <!-- <ion-buttons right>
+            <button ion-button icon-only (click)="loginOut()">
+                    <ion-icon name="exit"></ion-icon>
+                </button>
+        </ion-buttons> -->
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding class="bgcolor">
+    <div class="title" *ngIf="msg">
+        <p>{{msg}}</p>
+    </div>
+    <ion-grid *ngIf="!msg">
+        <ion-row>
+            <ion-col>
+                <!-- <div class="first-title">
+                    <p>{{item.Date}}</p>
+                </div>
+                <div class="title">
+                    <img src="././assets/imgs/ico－5.png" alt="" class="first-title-img">
+                    <p>{{item.TripId.Departure}}</p>
+                </div>
+                <div class="title">
+                    <img src="././assets/imgs/ico－6.png" alt="" class="last-title-img">
+                    <p>{{item.TripId.Destination}}</p>
+                </div> -->
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-list>
+                    <ion-item *ngFor="let item of items;let key = index">
+
+                        <span ion-text ion-start class="item-bold">{{msg}}{{item.PassagerId.Name}}</span>
+                        <span ion-text ion-start>{{item.Number}}人</span>
+                        <span ion-text ion-start>{{item.PassagerId.Phone}}</span>
+                        <!-- <span item-end><a (click)="presentPrompt()"><ion-icon name="chatboxes"></ion-icon></a></span> -->
+                        <span item-end></span>
+                        <span item-end><a href="tel:{{item.PassagerId.Phone}}"><ion-icon name="call"></ion-icon></a></span>
+                        <div style="height:30px;margin-top:5px;">
+                            <img src="././assets/imgs/ico－4.png" alt="" class="first-content-img">
+                            <p>&nbsp;&nbsp;{{item.AppointDate}}</p>
+                        </div>
+                        <div style="height:30px;">
+                            <img src="././assets/imgs/ico－5.png" alt="" class="middle-content-img">
+                            <p>&nbsp;&nbsp;{{item.Departure}}</p>
+                        </div>
+                        <div style="height:30px;">
+                            <img src="././assets/imgs/ico－6.png" alt="" class="last-content-img">
+                            <p>&nbsp;&nbsp;{{item.Destination}}</p>
+                        </div>
+                        <div style="height:30px;">
+                            <img src="././assets/imgs/ico－12.png" alt="" class="point-content-img">
+                            <p>&nbsp;&nbsp;{{item.Passpoint}}</p>
+                        </div>
+                    </ion-item>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <button ion-button full (click)="update(items)">确认订单</button>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <button ion-button color="light" (click)="cancel(items)" full icon-only outline>取消订单</button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+</ion-content>
