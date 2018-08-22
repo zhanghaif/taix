@@ -43,10 +43,10 @@ export class LoginPage {
 
   login(){
 
-    this.jpush.getRegistrationID().then(rId => {
-      this.userinfo(rId);
+    // this.jpush.getRegistrationID().then(rId => {
+      this.userinfo("rId");
       // alert(this.registrationId)
-    });
+    // });
 
   }
   userinfo(rId){

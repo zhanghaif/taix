@@ -11,6 +11,7 @@ import { SpeechRecognition } from '@ionic-native/speech-recognition';
 import { PhonegapLocalNotification } from '@ionic-native/phonegap-local-notification'
 import { HttpModule, JsonpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
+import { BackgroundMode } from '@ionic-native/background-mode';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -32,16 +33,18 @@ import { AndroidPermissions } from '@ionic-native/android-permissions';
 
 import { ComponentsModule } from '../components/components.module'
 
+
+
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
-    // LoginPage,
-    // OrdersPage,
-    // ProgressPage,
-    // ListenerPage,
-    // LoginoutPage,
-    // ListinfoPage
+    HomePage,
+    LoginPage,
+    OrdersPage,
+    ProgressPage,
+    ListenerPage,
+    LoginoutPage,
+    ListinfoPage
     //ionic cordova build android --prod --release 打包注释
   ],
   imports: [
@@ -71,6 +74,7 @@ import { ComponentsModule } from '../components/components.module'
     NativeAudio,
     StatusBar,
     SplashScreen,
+    BackgroundMode,
     SMS,
     Device,
     JPush,

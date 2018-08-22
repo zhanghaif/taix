@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "5.2.10",
     "@ionic-native/android-permissions": "^4.7.0",
     "@ionic-native/background-geolocation": "^4.7.0",
+    "@ionic-native/background-mode": "^4.12.0",
     "@ionic-native/camera": "^4.7.0",
     "@ionic-native/core": "4.7.0",
     "@ionic-native/device": "^4.7.0",
@@ -40,6 +41,7 @@
     "cordova-android": "~7.0.0",
     "cordova-ios": "~4.5.4",
     "cordova-plugin-android-permissions": "^1.0.0",
+    "cordova-plugin-background-mode": "^0.7.2",
     "cordova-plugin-camera": "^4.0.3",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-geolocation": "^4.0.1",
@@ -94,7 +96,8 @@
         "ALWAYS_USAGE_DESCRIPTION": "This app always requires location tracking"
       },
       "cordova-plugin-geolocation": {},
-      "cordova-plugin-android-permissions": {}
+      "cordova-plugin-android-permissions": {},
+      "cordova-plugin-background-mode": {}
     },
     "platforms": [
       "ios",

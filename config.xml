@@ -104,6 +104,7 @@
     <plugin name="jpush-phonegap-plugin" spec="jpush-phonegap-plugin">
         <variable name="APP_KEY" value="ca157f27dc83c1b18ad5bfa2" />
     </plugin>
+    <plugin name="cordova-plugin-background-mode" spec="^0.7.2" />
     <engine name="ios" spec="~4.5.4" />
     <engine name="android" spec="~7.0.0" />
 </widget>

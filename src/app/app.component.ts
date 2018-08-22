@@ -4,6 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { JPush } from '@jiguang-ionic/jpush';
 import { Device } from '@ionic-native/device';
+// import { BackgroundMode } from '@ionic-native/background-mode';
 
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
@@ -118,7 +119,10 @@ export class MyApp {
     public geolocation :Geolocation,
     public httpServers: HttpServerProvider,
     private androidPermissions: AndroidPermissions,
+    // private backgroundMode: BackgroundMode,
     jpush: JPush, device: Device) {
+      // this.backgroundMode.enable();
+      // this.backgroundMode.disableWebViewOptimizations();
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -128,6 +132,18 @@ export class MyApp {
       jpush.setDebugMode(true);
       this.devicePlatform = device.platform;
 
+
+      //启用后台模式。一旦被调用，阻止应用程序在后台暂停 disable关闭
+    //   document.addEventListener('deviceready', function () {
+    //     // cordova.plugins.backgroundMode is now available
+        
+    //     this.cordova.plugins.backgroundMode.enable();
+    //     this.cordova.plugins.backgroundMode.setEnabled(true);
+    //     // this.backgroundMode.disableWebViewOptimizations();
+
+    //   }, false);
+      
+      
       // jpush.getRegistrationID().then(rId => {
       //   // this.registrationId = rId;
       //   // console.log(rId);
@@ -135,48 +151,30 @@ export class MyApp {
       //   // return rId;
       // });
 
-      document.addEventListener('jpush.openNotification', (event: any) => {
-        // var i = 0;
-        // alert('jpush.openNotification' + JSON.stringify(event));
-        // console.log("^^^^^^^^^^^^^^^^^^");
-        // console.log(JSON.stringify(event));
-        // console.log(i++);
-        // console.log("^^^^^^^^^^^^^^^^^^");
-        // jpush.setBadge(0);
-        // jpush.setApplicationIconBadgeNumber(0);
-        this.rootPage=OrdersPage
-      })
+      // document.addEventListener('jpush.openNotification', (event: any) => {
+      //   this.rootPage=OrdersPage
+      // })
       //获取设备位置权限
-      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.CAMERA).then(
-        result => console.log('Has permission?',result.hasPermission),
-        err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.CAMERA)
-      );
+      // this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.CAMERA).then(
+      //   result => console.log('Has permission?',result.hasPermission),
+      //   err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.CAMERA)
+      // );
 
-
-      // this.geolocation.getCurrentPosition().then((resp) => {
-      //   console.log("@@@@@@@@@@@@@@@@@");
-      //   console.log(resp.coords.latitude+"@@"+resp.coords.longitude);
+      // geolocation.watchPosition().subscribe(pos => {
+      //   console.log("********************");
+      //   if(this.tools.get("state")=='在岗' && this.tools.getUserInfo()!= null){
+      //     this.entity=this.getCar();
+      //     this.entity.Angle=pos.coords.heading;
+      //     this.entity.Lat=this.GPS.gpstogd_lat(pos.coords.latitude,pos.coords.longitude);
+      //     this.entity.Lng=this.GPS.gpstogd_lon(pos.coords.latitude,pos.coords.longitude);
+      //     console.log(JSON.stringify(this.entity));
+      //     if(this.entity.CarNum != null ){
+      //       console.log(JSON.stringify(this.entity));
+      //       this.driverupload(this.entity);
+      //     }
+      //   }
         
-      //   // resp.coords.latitude
-      //   // resp.coords.longitude
-      //  }).catch((error) => {
-      //    console.log('Error getting location', error);
-      //  });
-      geolocation.watchPosition().subscribe(pos => {
-        console.log("********************");
-        if(this.tools.get("state")=='在岗' && this.tools.getUserInfo()!= null){
-          this.entity=this.getCar();
-          this.entity.Angle=pos.coords.heading;
-          this.entity.Lat=this.GPS.gpstogd_lat(pos.coords.latitude,pos.coords.longitude);
-          this.entity.Lng=this.GPS.gpstogd_lon(pos.coords.latitude,pos.coords.longitude);
-          console.log(JSON.stringify(this.entity));
-          if(this.entity.CarNum != null ){
-            console.log(JSON.stringify(this.entity));
-            this.driverupload(this.entity);
-          }
-        }
-        
-      })
+      // })
       // watch.unsubscribe();
 
     });

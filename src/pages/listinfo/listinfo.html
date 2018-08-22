@@ -24,9 +24,9 @@
     <ion-list *ngIf="!msg">
         <ion-item *ngFor="let item of items;let key = index">
             <button ion-item (click)="goProgress(item)">
-              <span ion-text ion-start class="item-bold">{{item.PassagerId.Name}}</span>
+              <!-- <span ion-text ion-start class="item-bold">{{item.PassagerId.Name}}</span>
               <span ion-text ion-start>{{item.Number}}人</span>
-              <span ion-text ion-start>{{item.PassagerId.Phone}}</span>
+              <span ion-text ion-start>{{item.PassagerId.Phone}}</span> -->
               <span item-end >
                   {{item.State}}
               </span>
@@ -43,10 +43,10 @@
                   <img src="././assets/imgs/ico－6.png" alt="" class="last-content-img" >
                   <p>&nbsp;&nbsp;{{item.Destination}}</p>
               </div>
-              <div style="height:30px;">
+              <!-- <div style="height:30px;">
                 <img src="././assets/imgs/ico－12.png" alt="" class="point-content-img" >
                 <p>&nbsp;&nbsp;{{item.Passpoint}}</p>
-              </div>
+              </div> -->
           </button>
         </ion-item>
     </ion-list>
