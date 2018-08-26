@@ -44,6 +44,8 @@ export class OrdersPage {
       "Id": null
     },
     "DriverFeedback":null,
+    "Info":null,
+    "Make":null,
     "Departure": null,
     "Destination": null,
     "Number":null,//乘车人数
