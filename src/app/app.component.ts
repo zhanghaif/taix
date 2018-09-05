@@ -151,30 +151,30 @@ export class MyApp {
       //   // return rId;
       // });
 
-      // document.addEventListener('jpush.openNotification', (event: any) => {
-      //   this.rootPage=OrdersPage
-      // })
+      document.addEventListener('jpush.openNotification', (event: any) => {
+        this.rootPage=OrdersPage
+      })
       //获取设备位置权限
-      // this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.CAMERA).then(
-      //   result => console.log('Has permission?',result.hasPermission),
-      //   err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.CAMERA)
-      // );
+      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.CAMERA).then(
+        result => console.log('Has permission?',result.hasPermission),
+        err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.CAMERA)
+      );
 
-      // geolocation.watchPosition().subscribe(pos => {
-      //   console.log("********************");
-      //   if(this.tools.get("state")=='在岗' && this.tools.getUserInfo()!= null){
-      //     this.entity=this.getCar();
-      //     this.entity.Angle=pos.coords.heading;
-      //     this.entity.Lat=this.GPS.gpstogd_lat(pos.coords.latitude,pos.coords.longitude);
-      //     this.entity.Lng=this.GPS.gpstogd_lon(pos.coords.latitude,pos.coords.longitude);
-      //     console.log(JSON.stringify(this.entity));
-      //     if(this.entity.CarNum != null ){
-      //       console.log(JSON.stringify(this.entity));
-      //       this.driverupload(this.entity);
-      //     }
-      //   }
+      geolocation.watchPosition().subscribe(pos => {
+        console.log("********************");
+        if(this.tools.get("state")=='在岗' && this.tools.getUserInfo()!= null){
+          this.entity=this.getCar();
+          this.entity.Angle=pos.coords.heading;
+          this.entity.Lat=this.GPS.gpstogd_lat(pos.coords.latitude,pos.coords.longitude);
+          this.entity.Lng=this.GPS.gpstogd_lon(pos.coords.latitude,pos.coords.longitude);
+          console.log(JSON.stringify(this.entity));
+          if(this.entity.CarNum != null ){
+            console.log(JSON.stringify(this.entity));
+            this.driverupload(this.entity);
+          }
+        }
         
-      // })
+      })
       // watch.unsubscribe();
 
     });
