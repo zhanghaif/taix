@@ -68,12 +68,15 @@ export class ListinfoPage {
     public httpServers: HttpServerProvider,
     public loadingCtrl: LoadingController,
     public tools: ToolsProvider) {
-    this.requestData(null);
+    // this.requestData(null);
   }
 
  goListener(){
    this.navCtrl.setRoot(ListenerPage)
  }
+ ionViewDidEnter(){
+  this.doRefresh(null)
+}
  //订单数据请求
  requestData(infiniteScroll){
     var that=this;

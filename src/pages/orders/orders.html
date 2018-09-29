@@ -39,7 +39,7 @@
         <ion-row>
             <ion-col>
                 <ion-list>
-                    <ion-item *ngFor="let item of items;let key = index">
+                    <ion-item *ngFor="let item of items;let key = index" style="margin-top:5px;">
 
                         <!-- <span ion-text ion-start class="item-bold">{{msg}}{{item.PassagerId.Name}}</span>
                         <span ion-text ion-start>{{item.Number}}人</span>
@@ -47,18 +47,21 @@
                         <!-- <span item-end><a (click)="presentPrompt()"><ion-icon name="chatboxes"></ion-icon></a></span> -->
                         <!-- <span item-end></span> -->
                         <!-- <span item-end><a href="tel:{{item.PassagerId.Phone}}"><ion-icon name="call"></ion-icon></a></span> -->
-                        <div style="height:30px;margin-top:5px;">
+                        <div style="height:20px;margin-top:5px;">
+                            <p>&nbsp;&nbsp;{{item.Type}}</p>
+                        </div>
+                        <div style="height:20px;margin-top:5px;">
                             <img src="././assets/imgs/ico－4.png" alt="" class="first-content-img">
                             <p>&nbsp;&nbsp;{{item.AppointDate}}</p>
                         </div>
-                        <div style="height:40px;">
+                        <div style="height:60px;">
                             <img src="././assets/imgs/ico－5.png" alt="" class="middle-content-img">
                             <p style="white-space: pre-wrap;margin-left:15px;">{{item.Info}}</p>
                         </div>
-                        <div style="height:40px;">
+                        <!-- <div style="height:40px;">
                             <img src="././assets/imgs/ico－6.png" alt="" class="last-content-img">
                             <p style="white-space: pre-wrap;margin-left:15px;">{{item.Mark}}</p>
-                        </div>
+                        </div> -->
                         <!-- <div style="height:30px;">
                             <img src="././assets/imgs/ico－12.png" alt="" class="point-content-img">
                             <p>&nbsp;&nbsp;{{item.Passpoint}}</p>

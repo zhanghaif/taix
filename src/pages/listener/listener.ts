@@ -8,7 +8,7 @@ import { Device } from '@ionic-native/device';
 import { HttpServerProvider } from '../../providers/http-server/http-server';
 import { ToolsProvider } from '../../providers/tools/tools';
 import { LoginPage } from '../login/login';
-import { Geolocation } from '@ionic-native/geolocation';
+// import { Geolocation } from '@ionic-native/geolocation';
 
 /**
  * Generated class for the ListenerPage page.
@@ -24,6 +24,8 @@ import { Geolocation } from '@ionic-native/geolocation';
 })
 export class ListenerPage {
 
+ 
+
   // public LoginoutPage = LoginoutPage
   public ListinfoPage = ListinfoPage;
   // providers: LoginoutPage;
@@ -33,7 +35,7 @@ export class ListenerPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams, public jpush: JPush, 
-    public geolocation :Geolocation,
+    // public geolocation :Geolocation,
     device: Device,public httpServers: HttpServerProvider,
     public tools: ToolsProvider
   ) {
@@ -42,26 +44,17 @@ export class ListenerPage {
       this.navCtrl.setRoot(OrdersPage);
     }, false);
   }
-  getPosition(){
-    this.geolocation.getCurrentPosition().then((resp) => {
-      console.log("@@@@@@@@@@@@@@@@@");
-      console.log(resp.coords.latitude+"@@"+resp.coords.longitude);
-      
-      // resp.coords.latitude
-      // resp.coords.longitude
-     }).catch((error) => {
-       console.log('Error getting location', error);
-     });
 
-     let watch = this.geolocation.watchPosition();
-          watch.subscribe((data) => {
-            console.log("%%%%%%%%");
-            console.log(data.coords.latitude+"%%%%"+data.coords.longitude);
-      });
-  }
+
+
   ionViewDidEnter(){
     var interval=setInterval(() => {
+
+      if(this.tools.get("state")=='在岗'){
+        // console.log("请求是否存在订单信息");
+        
         this.getOrders(interval);
+      }
         // this.getPosition();
     }, 10000);
   }
@@ -100,7 +93,7 @@ export class ListenerPage {
     
     this.httpServers.update(api,null,that.tools.getUserInfo(),(data) => {
       if(data.Code=='200'){
-        console.log(200);
+        // console.log(200);
         that.tools.set('state','待岗');
         this.navCtrl.setRoot(HomePage);
       }else{

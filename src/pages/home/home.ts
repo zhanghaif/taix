@@ -81,6 +81,13 @@ export class HomePage {
       this.navCtrl.setRoot(LoginPage);
     }
   }
+  getLoginOut(){
+    let api="/logout/"+this.tools.get("rId")
+    this.httpServers.requestData(false,api,this.tools.getUserInfo(),function(data){
+        console.log(data);
+
+    })
+  }
   loginOut() {
     let actionSheet = this.actionSheetCtrl.create({
       title: '退出后不会删除任何历史数据，下次登录依然可以使用本帐号',
@@ -93,7 +100,7 @@ export class HomePage {
               content: '正在注销用户信息...'
             });
             loading.present();
-           
+           this.getLoginOut();
             this.navCtrl.setRoot(LoginPage);
             this.tools.clear();
             loading.dismiss();

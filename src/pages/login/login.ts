@@ -45,7 +45,7 @@ export class LoginPage {
 
     this.jpush.getRegistrationID().then(rId => {
       this.userinfo(rId);
-      alert(this.registrationId)
+      // alert(rId)
     });
 
   }
@@ -62,15 +62,20 @@ export class LoginPage {
       let loading = this.loadingCtrl.create({
         content: '正在登录中...'
       });
-      
+      // console.log(JSON.stringify(data.json()));
       if(data.status=="201"){
         data = data.json()
         loading.present();
         this.storage.set('userinfo',data);
+        this.storage.set('rId',rId);
         this.getUserId(data);
         loading.dismiss();
-      }else{
+      }else if(data.status=="203"){
         alert("用户名或密码错误！");
+        return
+      }else{
+        
+        alert("网络连接错误，请检查网络！");
         return
       }
       

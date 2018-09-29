@@ -4,14 +4,12 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Camera } from '@ionic-native/camera';
-import { SMS } from '@ionic-native/sms';
 import { NativeAudio } from '@ionic-native/native-audio';
 import { StreamingMedia } from '@ionic-native/streaming-media';
 import { SpeechRecognition } from '@ionic-native/speech-recognition';
 import { PhonegapLocalNotification } from '@ionic-native/phonegap-local-notification'
 import { HttpModule, JsonpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
-import { BackgroundMode } from '@ionic-native/background-mode';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -28,7 +26,9 @@ import { ListinfoPage } from '../pages/listinfo/listinfo';
 
 import { Device } from '@ionic-native/device';
 import { JPush } from '@jiguang-ionic/jpush';
-import { Geolocation } from '@ionic-native/geolocation';
+// import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
+// import { BackgroundFetch } from '@ionic-native/background-fetch';
+// import { Geolocation } from '@ionic-native/geolocation';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
 
 import { ComponentsModule } from '../components/components.module'
@@ -39,12 +39,12 @@ import { ComponentsModule } from '../components/components.module'
   declarations: [
     MyApp,
     HomePage,
-    LoginPage,
-    OrdersPage,
-    ProgressPage,
-    ListenerPage,
-    LoginoutPage,
-    ListinfoPage
+    // LoginPage,
+    // OrdersPage,
+    // ProgressPage,
+    // ListenerPage,
+    // LoginoutPage,
+    // ListinfoPage
     //ionic cordova build android --prod --release 打包注释
   ],
   imports: [
@@ -74,11 +74,11 @@ import { ComponentsModule } from '../components/components.module'
     NativeAudio,
     StatusBar,
     SplashScreen,
-    BackgroundMode,
-    SMS,
     Device,
     JPush,
-    Geolocation,
+    // BackgroundGeolocation,
+    // BackgroundFetch,
+    // Geolocation,
     AndroidPermissions,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ConfigProvider,

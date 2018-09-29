@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 // import { DomSanitizer } from '@angular/platform-browser';  
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
-import { SMS } from '@ionic-native/sms';
+// import { SMS } from '@ionic-native/sms';
 // import { ProgressPage } from '../progress/progress';
 import { HttpServerProvider } from '../../providers/http-server/http-server';
 import { ToolsProvider } from '../../providers/tools/tools';
@@ -58,7 +58,7 @@ export class OrdersPage {
   public msg=null;
   public flag = false;
   constructor(private alertCtrl: AlertController,
-    private sms: SMS,
+    // private sms: SMS,
     public navCtrl: NavController,
     public navParams: NavParams,
     public httpServers: HttpServerProvider,
@@ -69,7 +69,7 @@ export class OrdersPage {
   requestData(){
     var that=this;
     let api="/orders/?query=DriverId.Id:"+that.tools.get("DriverId")+",State:待处理";
-    this.httpServers.requestData(true,api,that.tools.getUserInfo(),function(data){
+    this.httpServers.requestData(false,api,that.tools.getUserInfo(),function(data){
       
       if(data){
         let res = [];
@@ -165,7 +165,7 @@ export class OrdersPage {
           text: '发送',
           handler: data => {
             // console.log(this.phone+data.sms);
-            this.sms.send(this.phone, data.sms);
+            // this.sms.send(this.phone, data.sms);
            
           }
         }

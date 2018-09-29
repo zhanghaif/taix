@@ -15,10 +15,10 @@ import { OrdersPage } from '../pages/orders/orders';
 
 import { HttpServerProvider } from '../providers/http-server/http-server';
 import { ToolsProvider } from '../providers/tools/tools';
-
 // import { Geolocation } from '@ionic-native/geolocation';
-import { Geolocation } from '@ionic-native/geolocation';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
+
+declare var BMap; 
 @Component({
   templateUrl: 'app.html'
 })
@@ -26,74 +26,6 @@ export class MyApp {
   rootPage:any = this.getVerification();
 
   devicePlatform: string;
-
-
-  GPS = {
-    PI : 3.14159265358979324,
-    x_pi : 3.14159265358979324 * 3000.0 / 180.0,
-    delta : function (lat, lon) {
-        // Krasovsky 1940
-        //
-        // a = 6378245.0, 1/f = 298.3
-        // b = a * (1 - f)
-        // ee = (a^2 - b^2) / a^2;
-        var a = 6378245.0; //  a: 卫星椭球坐标投影到平面地图坐标系的投影因子。
-        var ee = 0.00669342162296594323; //  ee: 椭球的偏心率。
-        var dLat = this.transformLat(lon - 105.0, lat - 35.0);
-        var dLon = this.transformLon(lon - 105.0, lat - 35.0);
-        var radLat = lat / 180.0 * this.PI;
-        var magic = Math.sin(radLat);
-        magic = 1 - ee * magic * magic;
-        var sqrtMagic = Math.sqrt(magic);
-        dLat = (dLat * 180.0) / ((a * (1 - ee)) / (magic * sqrtMagic) * this.PI);
-        dLon = (dLon * 180.0) / (a / sqrtMagic * Math.cos(radLat) * this.PI);
-        return {'lat': dLat, 'lon': dLon};
-    },
-
-    //GPS---高德
-    gcj_encrypt : function ( wgsLat , wgsLon ) {
-        if (this.outOfChina(wgsLat, wgsLon))
-            return {'lat': wgsLat, 'lon': wgsLon};
-
-        var d = this.delta(wgsLat, wgsLon);
-        return {'lat' : wgsLat + d.lat,'lon' : wgsLon + d.lon};
-    },
-    gpstogd_lat : function(wgsLat,wgsLon){
-      if (this.outOfChina(wgsLat, wgsLon))
-      return  wgsLat;
-
-      var d = this.delta(wgsLat, wgsLon);
-      return  wgsLat + d.lat;
-    },
-    gpstogd_lon : function(wgsLat,wgsLon){
-      if (this.outOfChina(wgsLat, wgsLon))
-      return  wgsLon;
-
-      var d = this.delta(wgsLat, wgsLon);
-      return  wgsLon + d.lon;
-    },
-    outOfChina : function (lat, lon) {
-        if (lon < 72.004 || lon > 137.8347)
-            return true;
-        if (lat < 0.8293 || lat > 55.8271)
-            return true;
-        return false;
-    },
-    transformLat : function (x, y) {
-        var ret = -100.0 + 2.0 * x + 3.0 * y + 0.2 * y * y + 0.1 * x * y + 0.2 * Math.sqrt(Math.abs(x));
-        ret += (20.0 * Math.sin(6.0 * x * this.PI) + 20.0 * Math.sin(2.0 * x * this.PI)) * 2.0 / 3.0;
-        ret += (20.0 * Math.sin(y * this.PI) + 40.0 * Math.sin(y / 3.0 * this.PI)) * 2.0 / 3.0;
-        ret += (160.0 * Math.sin(y / 12.0 * this.PI) + 320 * Math.sin(y * this.PI / 30.0)) * 2.0 / 3.0;
-        return ret;
-    },
-    transformLon : function (x, y) {
-        var ret = 300.0 + x + 2.0 * y + 0.1 * x * x + 0.1 * x * y + 0.1 * Math.sqrt(Math.abs(x));
-        ret += (20.0 * Math.sin(6.0 * x * this.PI) + 20.0 * Math.sin(2.0 * x * this.PI)) * 2.0 / 3.0;
-        ret += (20.0 * Math.sin(x * this.PI) + 40.0 * Math.sin(x / 3.0 * this.PI)) * 2.0 / 3.0;
-        ret += (150.0 * Math.sin(x / 12.0 * this.PI) + 300.0 * Math.sin(x / 30.0 * this.PI)) * 2.0 / 3.0;
-        return ret;
-      }
-  };
 
   public entity={
     "Angle": 0,
@@ -108,7 +40,6 @@ export class MyApp {
     "State": null
   }
   
-
   public flag = false;
 
   constructor(platform: Platform, 
@@ -116,13 +47,10 @@ export class MyApp {
     splashScreen: SplashScreen,
     public tools: ToolsProvider,
     public storage: StorageProvider, 
-    public geolocation :Geolocation,
+    // public geolocation :Geolocation,
     public httpServers: HttpServerProvider,
     private androidPermissions: AndroidPermissions,
-    // private backgroundMode: BackgroundMode,
     jpush: JPush, device: Device) {
-      // this.backgroundMode.enable();
-      // this.backgroundMode.disableWebViewOptimizations();
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -131,25 +59,7 @@ export class MyApp {
       jpush.init();
       jpush.setDebugMode(true);
       this.devicePlatform = device.platform;
-
-
-      //启用后台模式。一旦被调用，阻止应用程序在后台暂停 disable关闭
-    //   document.addEventListener('deviceready', function () {
-    //     // cordova.plugins.backgroundMode is now available
-        
-    //     this.cordova.plugins.backgroundMode.enable();
-    //     this.cordova.plugins.backgroundMode.setEnabled(true);
-    //     // this.backgroundMode.disableWebViewOptimizations();
-
-    //   }, false);
       
-      
-      // jpush.getRegistrationID().then(rId => {
-      //   // this.registrationId = rId;
-      //   // console.log(rId);
-      //   this.tools.set("registrationId",rId);
-      //   // return rId;
-      // });
 
       document.addEventListener('jpush.openNotification', (event: any) => {
         this.rootPage=OrdersPage
@@ -160,27 +70,43 @@ export class MyApp {
         err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.CAMERA)
       );
 
-      geolocation.watchPosition().subscribe(pos => {
-        console.log("********************");
+      
+      setInterval(() => {
         if(this.tools.get("state")=='在岗' && this.tools.getUserInfo()!= null){
-          this.entity=this.getCar();
-          this.entity.Angle=pos.coords.heading;
-          this.entity.Lat=this.GPS.gpstogd_lat(pos.coords.latitude,pos.coords.longitude);
-          this.entity.Lng=this.GPS.gpstogd_lon(pos.coords.latitude,pos.coords.longitude);
-          console.log(JSON.stringify(this.entity));
-          if(this.entity.CarNum != null ){
-            console.log(JSON.stringify(this.entity));
-            this.driverupload(this.entity);
-          }
+          var that = this;
+          var geolocation = new BMap.Geolocation();
+          geolocation.getCurrentPosition(function(r){
+            that.entity=that.getCar();
+            var p = that.Convert_BD09_To_GCJ02(r.point.lat,r.point.lng);
+            that.entity.Angle=r.heading;
+            that.entity.Lat=p.lat;
+            that.entity.Lng=p.lng;
+            // console.log("位置信息："+JSON.stringify(that.entity));
+            if(that.entity.CarNum != null ){
+              // console.log(JSON.stringify(that.entity));
+              that.driverupload(that.entity);
+            }
+          },{
+            enableHighAccuracy: true
+          })
         }
-        
-      })
-      // watch.unsubscribe();
+      }, 5000);
+      
 
     });
     
   }
-
+  Convert_BD09_To_GCJ02(lat, lng)	{	
+    var x_pi = 3.14159265358979324 * 3000.0 / 180.0;		
+    var x = lng - 0.0065;		
+    var y = lat - 0.006;		
+    var z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * x_pi);		
+    var theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * x_pi);		
+    lng = z * Math.cos(theta);		
+    lat = z * Math.sin(theta);		
+    return {"lat":lat,"lng":lng};	
+  }
+  
   getCar(){
     let num=0;
       this.httpServers.requestData(this.flag,'/orders/?query=State:进行中',this.tools.getUserInfo(),data=>{
@@ -215,7 +141,7 @@ export class MyApp {
   }
   driverupload(entity){
     this.httpServers.doPost('/push/driverupload',entity,this.tools.getUserInfo(),data =>{
-      console.log(data);
+      // console.log(data);
     })
   }
 
