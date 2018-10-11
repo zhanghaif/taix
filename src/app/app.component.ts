@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Platform, ToastController, IonicApp } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { JPush } from '@jiguang-ionic/jpush';
@@ -13,10 +13,16 @@ import { ListenerPage } from '../pages/listener/listener';
 import { StorageProvider } from '../providers/storage/storage';
 import { OrdersPage } from '../pages/orders/orders';
 
+
 import { HttpServerProvider } from '../providers/http-server/http-server';
 import { ToolsProvider } from '../providers/tools/tools';
 // import { Geolocation } from '@ionic-native/geolocation';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
+// import { BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocationResponse } from '@ionic-native/background-geolocation';
+
+import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
+// import { NativeAudio } from '@ionic-native/native-audio';
+import { AlertController } from 'ionic-angular';
 
 declare var BMap; 
 @Component({
@@ -39,15 +45,26 @@ export class MyApp {
     "Mark": null,
     "State": null
   }
-  
+  // private onSuccess: any;
+  // private onError: any;
+
   public flag = false;
 
-  constructor(platform: Platform, 
+  backButtonPressed: boolean = false;  //用于判断返回键是否触发
+  // @ViewChild('myNav') nav: Nav;
+
+  constructor(public platform: Platform, 
+    public ionicApp: IonicApp, 
+    public toastCtrl: ToastController,
     statusBar: StatusBar, 
+    // public nav: Nav,
+    private alertCtrl: AlertController,
     splashScreen: SplashScreen,
     public tools: ToolsProvider,
     public storage: StorageProvider, 
+    private backgroundGeolocation: BackgroundGeolocation,
     // public geolocation :Geolocation,
+    // private nativeAudio: NativeAudio,
     public httpServers: HttpServerProvider,
     private androidPermissions: AndroidPermissions,
     jpush: JPush, device: Device) {
@@ -59,6 +76,7 @@ export class MyApp {
       jpush.init();
       jpush.setDebugMode(true);
       this.devicePlatform = device.platform;
+      this.registerBackButtonAction();//注册返回按键事件
       
 
       document.addEventListener('jpush.openNotification', (event: any) => {
@@ -71,19 +89,25 @@ export class MyApp {
       );
 
       
+      // this.nativeAudio.preloadSimple('uniqueId1', 'assets/mp3/jt.mp3').then(this.onSuccess, this.onError);
+
+
       setInterval(() => {
+        // this.notice();
         if(this.tools.get("state")=='在岗' && this.tools.getUserInfo()!= null){
           var that = this;
           var geolocation = new BMap.Geolocation();
+          // 开启辅助定位     
+          geolocation.enableSDKLocation();     
           geolocation.getCurrentPosition(function(r){
             that.entity=that.getCar();
             var p = that.Convert_BD09_To_GCJ02(r.point.lat,r.point.lng);
             that.entity.Angle=r.heading;
             that.entity.Lat=p.lat;
             that.entity.Lng=p.lng;
-            // console.log("位置信息："+JSON.stringify(that.entity));
+            console.log("位置信息："+JSON.stringify(r));
             if(that.entity.CarNum != null ){
-              // console.log(JSON.stringify(that.entity));
+              console.log(JSON.stringify(that.entity));
               that.driverupload(that.entity);
             }
           },{
@@ -96,6 +120,7 @@ export class MyApp {
     });
     
   }
+  
   Convert_BD09_To_GCJ02(lat, lng)	{	
     var x_pi = 3.14159265358979324 * 3000.0 / 180.0;		
     var x = lng - 0.0065;		
@@ -174,5 +199,52 @@ export class MyApp {
       return ListenerPage //听单中
     }
   }
-}
 
+  registerBackButtonAction() {
+    this.platform.registerBackButtonAction(() => {
+      //如果想点击返回按钮隐藏toast或loading或Overlay就把下面加上
+      // this.ionicApp._toastPortal.getActive() || this.ionicApp._loadingPortal.getActive() || this.ionicApp._overlayPortal.getActive()
+      let activePortal = this.ionicApp._modalPortal.getActive();
+      if (activePortal) {
+        activePortal.dismiss().catch(() => {});
+        activePortal.onDidDismiss(() => {});
+        return;
+      }
+      
+      return  this.showExit()
+    }, 1);
+  }
+  //双击退出提示框
+  showExit() {
+    let alert = this.alertCtrl.create({
+      title: '是否退出应用？',
+      message: '退出应用后将不在为您提供数据服务！',
+      buttons: [
+        {
+          text: '取消',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: '确定',
+          handler: () => {
+            if(this.tools.get("state")!=null){
+              this.tools.set('state','待岗');
+            }
+            this.backgroundGeolocation.stop();
+            this.platform.exitApp();
+            // this.backButtonPressed = true;
+            // setTimeout(() => this.backButtonPressed = false, 2000);//2秒内没有再次点击返回则将触发标志标记为false
+          }
+        }
+      ]
+    });
+    alert.present();
+      
+  }
+  presentConfirm() {
+    
+  }
+}

@@ -26,7 +26,10 @@ import { ListinfoPage } from '../pages/listinfo/listinfo';
 
 import { Device } from '@ionic-native/device';
 import { JPush } from '@jiguang-ionic/jpush';
-// import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
+import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
+import { Autostart } from '@ionic-native/autostart';
+import { BackgroundMode } from '@ionic-native/background-mode';
+
 // import { BackgroundFetch } from '@ionic-native/background-fetch';
 // import { Geolocation } from '@ionic-native/geolocation';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
@@ -76,7 +79,9 @@ import { ComponentsModule } from '../components/components.module'
     SplashScreen,
     Device,
     JPush,
-    // BackgroundGeolocation,
+    BackgroundGeolocation,
+    Autostart,
+    BackgroundMode,
     // BackgroundFetch,
     // Geolocation,
     AndroidPermissions,

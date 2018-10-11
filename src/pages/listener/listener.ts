@@ -8,6 +8,11 @@ import { Device } from '@ionic-native/device';
 import { HttpServerProvider } from '../../providers/http-server/http-server';
 import { ToolsProvider } from '../../providers/tools/tools';
 import { LoginPage } from '../login/login';
+import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
+import { Autostart } from '@ionic-native/autostart';
+import { BackgroundMode } from '@ionic-native/background-mode';
+
+import { NativeAudio } from '@ionic-native/native-audio';
 // import { Geolocation } from '@ionic-native/geolocation';
 
 /**
@@ -31,11 +36,18 @@ export class ListenerPage {
   // providers: LoginoutPage;
   devicePlatform: string;
 
+  private onSuccess: any;
+  private onError: any;
+
   public flag = false;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams, public jpush: JPush, 
     // public geolocation :Geolocation,
+    private backgroundGeolocation: BackgroundGeolocation,
+    private autostart: Autostart,
+    private backgroundMode: BackgroundMode,
+    private nativeAudio: NativeAudio,
     device: Device,public httpServers: HttpServerProvider,
     public tools: ToolsProvider
   ) {
@@ -43,16 +55,20 @@ export class ListenerPage {
     document.addEventListener('jpush.receiveNotification', (event: any) => {
       this.navCtrl.setRoot(OrdersPage);
     }, false);
+    this.nativeAudio.preloadSimple('uniqueId1', 'assets/mp3/jt.mp3').then(this.onSuccess, this.onError);
+
+
+    // alert(this.backgroundMode.isEnabled());
   }
 
 
 
   ionViewDidEnter(){
     var interval=setInterval(() => {
-
+     
       if(this.tools.get("state")=='在岗'){
         // console.log("请求是否存在订单信息");
-        
+        this.notice();
         this.getOrders(interval);
       }
         // this.getPosition();
@@ -95,6 +111,10 @@ export class ListenerPage {
       if(data.Code=='200'){
         // console.log(200);
         that.tools.set('state','待岗');
+        that.backgroundGeolocation.stop();
+        that.autostart.disable();
+        that.backgroundMode.disable();
+        this.nativeAudio.stop('uniqueId1');
         this.navCtrl.setRoot(HomePage);
       }else{
         that.getStatus(data.status);
@@ -108,5 +128,8 @@ export class ListenerPage {
       alert("登录失效，请重新登录！");
       this.navCtrl.setRoot(LoginPage);
     }
+  }
+  notice() { 
+    this.nativeAudio.play('uniqueId1').then(this.onSuccess, this.onError); 
   }
 }
