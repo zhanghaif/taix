@@ -25,6 +25,7 @@ import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { AlertController } from 'ionic-angular';
 
 declare var BMap; 
+declare var AMap; 
 @Component({
   templateUrl: 'app.html'
 })
@@ -96,23 +97,53 @@ export class MyApp {
         // this.notice();
         if(this.tools.get("state")=='在岗' && this.tools.getUserInfo()!= null){
           var that = this;
-          var geolocation = new BMap.Geolocation();
-          // 开启辅助定位     
-          geolocation.enableSDKLocation();     
-          geolocation.getCurrentPosition(function(r){
-            that.entity=that.getCar();
-            var p = that.Convert_BD09_To_GCJ02(r.point.lat,r.point.lng);
-            that.entity.Angle=r.heading;
-            that.entity.Lat=p.lat;
-            that.entity.Lng=p.lng;
-            console.log("位置信息："+JSON.stringify(r));
-            if(that.entity.CarNum != null ){
-              console.log(JSON.stringify(that.entity));
-              that.driverupload(that.entity);
-            }
-          },{
-            enableHighAccuracy: true
+          // var geolocation = new BMap.Geolocation();
+          // // 开启辅助定位     
+          // geolocation.enableSDKLocation();     
+          // geolocation.getCurrentPosition(function(r){
+          //   that.entity=that.getCar();
+          //   var p = that.Convert_BD09_To_GCJ02(r.point.lat,r.point.lng);
+          //   that.entity.Angle=r.heading;
+          //   that.entity.Lat=p.lat;
+          //   that.entity.Lng=p.lng;
+          //   console.log("位置信息："+JSON.stringify(r));
+          //   if(that.entity.CarNum != null ){
+          //     console.log(JSON.stringify(that.entity));
+          //     that.driverupload(that.entity);
+          //   }
+          // },{
+          //   enableHighAccuracy: true
+          // })
+          var map = new AMap.Map('container', {
+            resizeEnable: true
+          });
+          AMap.plugin('AMap.Geolocation', function() {
+          
+          var geolocation = new AMap.Geolocation({
+            // 是否使用高精度定位，默认：true
+            enableHighAccuracy: true,
+            // 设置定位超时时间，默认：无穷大
+            timeout: 10000,
+            // 定位按钮的停靠位置的偏移量，默认：Pixel(10, 20)
+            buttonOffset: new AMap.Pixel(10, 20),
+            //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+            zoomToAccuracy: true,     
+            //  定位按钮的排放位置,  RB表示右下
+            buttonPosition: 'RB',
+            useNative:true
           })
+          
+          
+          map.addControl(geolocation);
+          geolocation.getCurrentPosition(function(status,result){
+              if(status=='complete'){
+                  that.onComplete(result)
+              }else{
+                  that.onError(result)
+              }
+          });
+          
+        })
         }
       }, 5000);
       
@@ -120,7 +151,26 @@ export class MyApp {
     });
     
   }
-  
+  onComplete (data) {
+    // data是具体的定位信息
+    // console.log("高德地图："+JSON.stringify(data));
+    var that = this;
+    that.entity=that.getCar();
+    // var p = that.Convert_BD09_To_GCJ02(r.point.lat,r.point.lng);
+    that.entity.Angle=null;
+    that.entity.Lat=data.position.lat;
+    that.entity.Lng=data.position.lng;
+    console.log("位置信息："+JSON.stringify(that.entity));
+    if(that.entity.CarNum != null ){
+      console.log(JSON.stringify(that.entity));
+      that.driverupload(that.entity);
+    }
+    
+  }
+
+   onError (data) {
+    // 定位出错
+  }
   Convert_BD09_To_GCJ02(lat, lng)	{	
     var x_pi = 3.14159265358979324 * 3000.0 / 180.0;		
     var x = lng - 0.0065;		
